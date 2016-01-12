@@ -9,14 +9,14 @@ var appToken = 'AKivGuBPgG-yYEetDKOauaOfHSYCgNjz';
 var requests_api = 'https://sandbox-api.uber.com/v1/requests';
 
 var query = {
-    "pick" : { 
-        "lat" : 28.699568,
-        "lon" : 77.6045513,
+    "pick" : {
+        "lat" : 12.937306,
+        "lon" : 77.695434,
         "address" : "Marthahalli"
     },
     "drop" : {
-        "lat" : 12.975682,
-        "lon" : 77.606676,
+        "lat" : 12.978361,
+        "lon" : 77.608015,
         "address" : "MG Road"
     },
     "cab_id" : "db6779d6-d8da-479f-8ac7-8068f4dade6f"
@@ -37,10 +37,10 @@ var bookCab = function(query, callback){
         },
         body: {
             "product_id" : "db6779d6-d8da-479f-8ac7-8068f4dade6f",
-            "start_latitude" : 12.908240,
-            "start_longitude" : 77.607409,
-            "end_latitude" : 12.925007,
-            "end_longitude" : 77.593803
+            "start_latitude" : query.pick.lat,
+            "start_longitude" : query.pick.lon,
+            "end_latitude" : query.drop.lat,
+            "end_longitude" : query.drop.lon
         }
     };
 
