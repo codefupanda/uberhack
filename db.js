@@ -13,6 +13,7 @@ var pool = mysql.createPool({
 var select_query = 'SELECT id, loc FROM location where status <> 0 order by id limit 1';
 //var insert_query = 'INSERT INTO booking_requests (user_id, status, company_id, created_at) VALUES (%d, 1, %d, now())';
 var update_query = 'UPDATE location set status = 0 where id = %d';
+var update_all_query = 'UPDATE location set status = 1';
 
 module.exports.get_active_location = function(callback) {
     console.log("In get_active_location");
@@ -38,6 +39,24 @@ module.exports.expire_location = function(id, callback) {
 
     pool.getConnection(function (err, connection) {
         var updateQuery = util.format(update_query, id);
+        connection.query(updateQuery, function(err,rows){
+            connection.release();
+            if(!err) {
+                console.log('Data received from Db:\n');
+                console.log(rows);
+                callback(null, rows);
+            } else {
+                console.log('Something went wrong while updating data, error ' + err);
+                callback(true, err)
+            }
+        });
+    });
+};
+module.exports.activate_all = function(callback) {
+    console.log("In activate_all");
+
+    pool.getConnection(function (err, connection) {
+        var updateQuery = update_all_query;
         connection.query(updateQuery, function(err,rows){
             connection.release();
             if(!err) {

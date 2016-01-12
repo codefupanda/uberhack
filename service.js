@@ -12,26 +12,26 @@ module.exports.getTrackInfo = function(callback) {
                 lat = currentResponse.destination.latitude;
                 long = currentResponse.destination.longitude;
             }
-            var response = {};
+            var api_response = {};
             db.get_active_location(function(err, latLongInfo) {
                 if (!err && (latLongInfo && latLongInfo.length)) {
                     var id = "";
                     for (var i in latLongInfo) {
                         id = latLongInfo[i].id;
-                        lat = latLongInfo[i].loc.split(",")[0];
-                        long = latLongInfo[i].loc.split(",")[1];
+                        lat = latLongInfo[i].loc.split(",")[0].trim();
+                        long = latLongInfo[i].loc.split(",")[1].trim();
                     }
                     db.expire_location(id, function (err, response) {
                         if(!err) {
-                            response.lat = lat;
-                            response.long = long;
+                            api_response.lat = lat;
+                            api_response.long = long;
                         }
-                        callback(null, response);
+                        callback(null, api_response);
                     });
                 } else {
-                    response.lat = lat;
-                    response.long = long;
-                    callback(null, response);
+                    api_response.lat = lat;
+                    api_response.long = long;
+                    callback(null, api_response);
                 }
             });
 

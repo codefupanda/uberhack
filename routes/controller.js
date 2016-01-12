@@ -9,6 +9,7 @@ var _ = require('underscore');
 
 var uberBook = require('../uber_book');
 var service = require('../service');
+var db = require('../db');
 
 // move to JADE
 var HTML = '<html><body><h1>Uber Hack</h1><form action="/%s"><input type="submit" value="%s"/></form></body></html>';
@@ -87,6 +88,8 @@ router.get('/finish', function(req, res) {
 	        uberBook.changeStatus(queryForStatusChange, function(error, acceptedResponse) {
 	        	if(!error) {
 	        		htmlRes = util.format(HTML, 'book', 'Book a cab')
+					db.activate_all(function(err, response) {
+					});
 				} else {
 					htmlRes = util.format(HTML, 'finish', 'Finish the ride')
 				}
