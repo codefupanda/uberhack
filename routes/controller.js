@@ -42,7 +42,7 @@ router.get('/book', function(req, res) {
 	uberBook.bookCab(function(error, bookResponse){
 		var htmlRes = 'Houston, we have problem!';
 		if(!error) {
-			htmlRes = util.format(HTML, 'inprogress', 'Finish the ride')
+			htmlRes = util.format(HTML, 'inprogress', 'Start the ride')
 		} else {
 			htmlRes = util.format(HTML, 'book', 'Book a cab')
 		}
@@ -76,6 +76,26 @@ router.get('/inprogress', function(req, res) {
 	})
 }) 
 
-router.get('/finish', function(req, res) {})
+router.get('/finish', function(req, res) {
+	uberBook.requestCurrent(function(error, currentResponse){
+		var htmlRes = 'Houston, we have problem!';
+		if(!error) {
+			var queryForStatusChange = {
+	            request_id : currentResponse.request_id,
+	            status : 'completed'
+        	}
+	        uberBook.changeStatus(queryForStatusChange, function(error, acceptedResponse) {
+	        	if(!error) {
+	        		htmlRes = util.format(HTML, 'book', 'Book a cab')
+				} else {
+					htmlRes = util.format(HTML, 'finish', 'Finish the ride')
+				}
+				res.send(htmlRes)
+	        })
+		} else {
+			res.send(htmlRes)
+		}
+	})
+})
 
 module.exports = router;
