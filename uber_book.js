@@ -24,7 +24,7 @@ var query = {
 
 
 
-var bookCab = function(query, callback){
+module.exports.bookCab = function(callback){
     var bookingResponse;
 
     var uberCabsBookingRequest = {
@@ -72,7 +72,7 @@ var bookCab = function(query, callback){
     request(uberCabsBookingRequest, uberCabsBookingCallback);
 }
 
-var changeStatus = function(query, callback){
+module.exports.changeStatus = function(query, callback){
 
     var updateRequest = {
         url :'https://sandbox-api.uber.com/v1/sandbox/requests/'+ query.request_id,
@@ -101,36 +101,7 @@ var changeStatus = function(query, callback){
 }
 
 
-var changeStatus = function(query, callback){
-
-    var updateRequest = {
-        url :'https://sandbox-api.uber.com/v1/sandbox/requests/'+ query.request_id,
-        method : 'PUT',
-        json : true,
-        headers :{
-        'Authorization' : 'Bearer ' + userToken,
-            'Content-Type' : 'application/json'
-        },
-        body:{
-            'status' : query.status
-        }
-    }
-   console.log("update request details ", updateRequest);
-   var  updateResponse = function(error, response , body){
-       if(!error){
-           console.log("successfully updated request id ")
-           callback(null, null);
-       }else{
-           console.log("unable to update request id");
-           callback(true, null);
-       }
-   }
-
-    request(updateRequest, updateResponse);
-}
-
-
-var requestCurrent = function (callback) {
+module.exports.requestCurrent = function (callback) {
     var requestCurrentReq = {
         url :'https://sandbox-api.uber.com/v1/requests/current',
         method : 'GET',
@@ -141,6 +112,12 @@ var requestCurrent = function (callback) {
     }
 
     var requestCurrentHandle = function(error, response, body) {
+        try {
+            body = JSON.parse(body);
+        } catch (e) {
+            console.log('Something went wrong' + e)
+            return callback(true, body);
+        }
         if(!error && body.request_id) {
             callback(null, body)
         } else {
@@ -152,18 +129,14 @@ var requestCurrent = function (callback) {
 }
 
 
-
-
-
-
-var sendNotification = function() {
+module.exports.sendNotification = function() {
     console.log('Send notification')
 }
 
 
 /*
  * Book the app
- */
+
 bookCab(query, function(error, response) {
     if(!error) {
         console.log('Booked a cab');
@@ -183,3 +156,4 @@ bookCab(query, function(error, response) {
         console.log('Fat gaee!!')
     }
 });
+ */

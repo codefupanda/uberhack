@@ -14,6 +14,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '11001');
 app.set('port', port);
+app.disable('etag');
 
 /**
  * Create HTTP server.
