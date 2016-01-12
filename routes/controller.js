@@ -54,7 +54,8 @@ router.get('/track', function(req, res) {
            res.send(response);
        } else {
            var response = {};
-           response.error = "error";
+           response.lat = 0.0;
+		   response.long = 0.0;
            res.send(response);
        }
    });

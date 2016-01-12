@@ -8,6 +8,7 @@ module.exports.getTrackInfo = function(callback) {
         var lat = "";
         var long = "";
         if(!error) {
+            console.log("inside");
             if(currentResponse.status == 'in_progress') {
                 lat = currentResponse.destination.latitude;
                 long = currentResponse.destination.longitude;
@@ -35,6 +36,8 @@ module.exports.getTrackInfo = function(callback) {
                 }
             });
 
+        } else {
+            callback(true);
         }
     });
 
