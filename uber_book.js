@@ -130,7 +130,26 @@ var changeStatus = function(query, callback){
 }
 
 
+var requestCurrent = function (callback) {
+    var requestCurrentReq = {
+        url :'https://sandbox-api.uber.com/v1/requests/current',
+        method : 'GET',
+        headers : {
+        'Authorization' : 'Bearer ' + userToken,
+            'Content-Type' : 'application/json'
+        }
+    }
 
+    var requestCurrentHandle = function(error, response, body) {
+        if(!error && body.request_id) {
+            callback(null, body)
+        } else {
+            callback(true, body)
+        }
+    }
+
+    request(requestCurrentReq, requestCurrentHandle);
+}
 
 
 
