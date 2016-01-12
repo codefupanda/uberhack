@@ -10,6 +10,7 @@ var GCM = require('gcm').GCM;
 
 var uberBook = require('../uber_book');
 var service = require('../service');
+var db = require('../db');
 
 // move to JADE
 var HTML = '<html><body> \
@@ -125,6 +126,8 @@ router.get('/finish', function(req, res) {
 	        	if(!error) {
 	        		sendNotification('trip-finished')
 	        		htmlRes = util.format(HTML, 'book', 'Book a cab')
+					db.activate_all(function(err, response) {
+					});
 				} else {
 					htmlRes = util.format(HTML, 'finish', 'Finish the ride')
 				}

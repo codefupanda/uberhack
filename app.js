@@ -10,10 +10,6 @@ app = express();
 
 var controller = require('./routes/controller');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(morgan({}));
 
 app.use(bodyParser.json());
