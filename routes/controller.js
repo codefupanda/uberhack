@@ -100,8 +100,8 @@ router.get('/inprogress', function(req, res) {
 	            uberBook.changeStatus(queryForStatusChange, function(error, bookResponse){
 					if(!error) {
 						sendNotification('trip-started', 
-							currentResponse.pickup.latitude, 
-							currentResponse.pickup.longitude);
+							uberBook.query.pick.lat, 
+							uberBook.query.pick.lon);
 						htmlRes = util.format(HTML, 'finish', 'Finish the ride')
 					} else {
 						htmlRes = util.format(HTML, 'book', 'Book a cab')

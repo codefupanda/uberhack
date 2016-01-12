@@ -22,7 +22,7 @@ var query = {
     "cab_id" : "db6779d6-d8da-479f-8ac7-8068f4dade6f"
 }
 
-
+module.exports.query = query
 
 module.exports.bookCab = function(callback){
     var bookingResponse;
